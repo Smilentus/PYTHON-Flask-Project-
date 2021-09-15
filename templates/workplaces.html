@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block header_links %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/workplacestyle.css') }}">
+{% endblock %}
+
+{% block header_title %}
+<title>Места для практики</title>
+{% endblock %}
+
+{% block content %}
+<div class="searchBar">
+    <form method="POST">
+        <input type="search" name="searchText" id="searchInput" placeholder="Введите данные..." value="">
+        <input formaction="/api/search/workplace" formmethod="POST" type="submit" name="submitBtn" id="submitBtn" value="Поиск">
+        <input formaction="/api/search/workplace/flush" formmethod="POST" type="submit" name="clearBtn" value="Очистить">
+    </form>
+</div>
+{% if cities|length > 0 %}
+<div class="filterList">
+    <p>Фильтр по городам</p>
+    <form method="POST">
+        {% for city in cities %}
+            <input type="submit" formaction="/api/filter/workplace/cities/{{city}}" formmethod="POST" value="{{city}}">
+        {% endfor %}
+    </form>
+</div>
+{% endif %}
+<div class="workplacesList">
+    {% if data|length > 0 %}
+    {% for workplace in data %}
+    <div class="workplacesBlock">
+        <img class="workplacesImg" src="{{ url_for('static', filename='avatars/avatar.png') }}"
+            alt="Аватарка работодателя">
+        <div class="workplacesExtra">
+            <p>Наименование: {{ workplace[1] }}</p>
+            <p>Местоположение: {{ workplace[7] }}</p>
+            <p>Город: {{ workplace[8] }}</p>
+            <p>Адрес: {{ workplace[9] }}</p>
+            <a href="/profile/workplace/{{workplace[0]}}">Открыть профиль</a>
+        </div>
+    </div>        
+    {% endfor %}
+    {% else %}
+        <p>Места для практики не найдены!</p>
+    {% endif %} 
+</div>
+{% endblock %}

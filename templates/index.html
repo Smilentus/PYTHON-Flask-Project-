@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block header_title %}
+<title>Главная страница</title>
+{% endblock %}
+
+{% block content %}
+    
+    <div class="mainBlock">
+        <div class="goToEmployers" onclick="location.href='/api/goToEmployers'">
+            <p>Я - работодатель</p>
+        </div>
+        <div class="goToStudents" onclick="location.href='/api/goToStudents'">
+            <p>Я - студент</p>
+        </div>
+    </div>
+{% endblock %}

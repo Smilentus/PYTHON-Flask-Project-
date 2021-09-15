@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block header_styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/news.css') }}">
+{% endblock %}
+
+{% block header_title %}
+<title>Новостная лента</title>
+{% endblock %}
+
+{% block content %}
+{% if isAuthor %}
+<div class="authorTools">
+    <form action="/api/publishPost" method="POST">
+        <input type="text" id='postTitle' name='postTitle' placeholder="Заголовок..." required>
+        <textarea id='postDescr' name='postDescr' placeholder="Начните печатать содержимое..." required></textarea>
+        <div>
+            <label for="acc1">Доступен всем</label>
+            <input type="radio" name="postAcceptance" id="acc1" value="opt1" checked>
+            <label for="acc2">Доступен по ссылке</label>
+            <input type="radio" name="postAcceptance" id="acc2" value="opt2">
+        </div>
+        <input type="submit" value="Опубликовать">
+    </form>
+</div>
+{% endif %}
+
+<div class="newsContainer">
+    {% if posts|length > 0 %}
+    {% for post in posts %}
+    <div class="newsPost">
+        <h2 class="postTitle">{{ post[2] }}</a></h2>
+        <p class="postDescription">{{ post[3] }}</p>
+        <p class="postAuthor">Автор: <a href="/profile/employer/{{post[0]}}">{{ post[8] }}</a></p>
+        <p class="postCreated">{{ post[4] }}</p>
+    </div>
+    {% endfor %}
+    {% else %}
+    <p>Опубликованных новостей не найдено!</p>
+    {% endif %}
+</div>
+{% endblock %}

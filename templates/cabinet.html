@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+
+{% block header_links %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
+{% endblock %}
+
+{% block header_title %}
+<title>Личный кабинет</title>
+{% endblock %}
+
+{% block content %}
+<div class="profileContainer">
+    <div class="profilePinged">
+        <h2>На Вас откликнулись</h2>
+        <h3>Работодатели</h3>
+        {% if fromEmployers|length > 0 %}
+            {% for employer in fromEmployers %}
+            <div class="pingedBlock">
+                <p>{{employer[1]}}</p>
+                <p><a href="/profile/employer/{{employer[0]}}">Открыть профиль</a></p>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="pingedBlock">
+                <p>Список пуст</p>
+            </div>
+        {% endif %}
+
+        <h3>Студенты</h3>
+        {% if fromStudents|length > 0 %}
+            {% for student in fromStudents %}
+            <div class="pingedBlock">
+                <p>{{student[1]}}</p>
+                <p><a href="/profile/student/{{student[0]}}">Открыть профиль</a></p>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="pingedBlock">
+                <p>Список пуст</p>
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="profileInfoBlock">
+        {% if user == 'student' %}
+        <div class="profileSide">
+            <p>Аватар профиля</p>
+            <img class="profileAvatar" src="{{ url_for('static', filename='avatars/avatar.png') }}"
+                alt="Аватар профиля">
+        </div>
+        <div class="profileInfo">
+            {% if data['studentData'][7] == "verified" %}
+            <p>Профиль подтверждён &#10003;</p>
+            {% elif data['studentData'][7] == "processing" %}
+            <p>Ожидание подтверждения</p>
+            {% elif data['studentData'][7] == "declined" %}
+            <p>Перед подтверждением профиля необходимо заполнить все поля <br><a
+                    href="/api/askForVerification">Необходимо подтверждение профиля</a></p>
+            {% else %}
+            <p><a href="/api/askForVerification">Необходимо подтверждение профиля</a></p>
+            {% endif %}
+
+            <p class="titleText">Информация о студенте</p>
+            <p>ФИО: {{ data['studentData'][1] }}</p>
+            <p>Учебное заведение: {{ data['studentData'][3] }}</p>
+            <p>Специальность: {{ data['studentData'][6] }}</p>
+            <p>Курс: {{ data['studentData'][5] }}</p>
+            <p>Должность: {{ data['profData'][1] }}</p>
+            <p>Телефон: {{ data['contactsData'][1] }}</p>
+            <p>E-Mail: {{ data['contactsData'][2] }}</p>
+            <p><a href="/api/changeProfileSettings">Изменить данные</a></p>
+        </div>
+        {% elif user == 'employer' %}
+        <div class="profileSide">
+            <p>Аватар профиля</p>
+            <img class="profileAvatar" src="{{ url_for('static', filename='avatars/avatar.png') }}"
+                alt="Аватар профиля">
+            <p>Лого компании</p>
+            <img class="profileAvatar" src="{{ url_for('static', filename='avatars/avatar.png') }}"
+                alt="Аватар профиля">
+            {% if data['emplData'][4] == "verified" %}
+            <p><a href="/news/wp/{{data['workplaceData']['workplaceData'][0]}}">Новостная лента</a></p>
+            {% endif %}
+        </div>
+        <div class="profileInfo">
+            {% if data['emplData'][4] == "verified" %}
+            <p>Профиль подтверждён &#10003;</p>
+            {% elif data['emplData'][4] == "processing" %}
+            <p>Ожидание подтверждения</p>
+            {% elif data['emplData'][4] == 'declined' %}
+            <p>Перед подтверждением профиля необходимо заполнить все поля <br><a
+                    href="/api/askForVerification">Необходимо подтверждение профиля</a></p>
+            {% else %}
+            <p><a href="/api/askForVerification">Необходимо подтверждение профиля</a></p>
+            {% endif %}
+
+            <p class="titleText">Информация о работодателе</p>
+            <p>ФИО: {{ data['emplData'][1] }}</p>
+            <p>Должность: {{ data['profData'][1] }}</p>
+            <p>Телефон: {{ data['contactsData'][1] }}</p>
+            <p>E-Mail: {{ data['contactsData'][2] }}</p>
+            <p class="titleText">Информация о месте практики</p>
+            <p>Наименование: {{ data['workplaceData']['workplaceData'][1] }}</p>
+            <p>Местоположение: {{ data['workplaceData']['locationData'][1] }}</p>
+            <p>Адрес: {{ data['workplaceData']['locationData'][3] }}</p>
+            <p>Город: {{ data['workplaceData']['locationData'][2] }}</p>
+            <p>Телефон: {{ data['workplaceData']['contactsData'][1] }}</p>
+            <p>E-Mail: {{ data['workplaceData']['contactsData'][2] }}</p>
+            <p>Дополнительная информация: {{ data['workplaceData']['locationData'][5] }}</p>
+            <p><a href="/api/changeProfileSettings">Изменить данные</a></p>
+        </div>
+        {% endif %}
+    </div>
+    
+    <div class="profilePinged">
+        <h2>Вы откликнулись</h2>
+        <h3>Работодатели</h3>
+        {% if toEmployers|length > 0 %}
+        {% for employer in toEmployers %}
+        <div class="pingedBlock">
+            <p>{{employer[1]}}</p>
+            <p><a href="/profile/employer/{{employer[0]}}">Открыть профиль</a></p>
+        </div>
+        {% endfor %}
+        {% else %}
+        <div class="pingedBlock">
+            <p>Список пуст</p>
+        </div>
+        {% endif %}
+
+        <h3>Студенты</h3>
+        {% if toStudents|length > 0 %}
+        {% for student in toStudents %}
+        <div class="pingedBlock">
+            <p>{{student[1]}}</p>
+            <p><a href="/profile/student/{{student[0]}}">Открыть профиль</a></p>
+        </div>
+        {% endfor %}
+        {% else %}
+        <div class="pingedBlock">
+            <p>Список пуст</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

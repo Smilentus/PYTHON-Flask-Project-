@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block header_links %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/authreg.css') }}">
+{% endblock %}
+
+{% block header_title %}
+<title>Регистрация</title>
+{% endblock %}
+
+{% block content %}
+<div class="registerBlock">
+    <h1>Регистрация</h1>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+            <span>{{ message }}</span>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <form action="/api/registerUser" method="POST">
+        <div>
+            {% if registerUserType == 'student' %}
+                <label for="type1">Студент</label>
+                <input type="radio" name="userType" id="type1" value="student" checked>
+                <label for="type2">Работодатель</label>
+                <input type="radio" name="userType" id="type2" value="employer">
+            {% else %}
+                <label for="type1">Студент</label>
+                <input type="radio" name="userType" id="type1" value="student">
+                <label for="type2">Работодатель</label>
+                <input type="radio" name="userType" id="type2" value="employer" checked>
+            {% endif %}
+        </div>
+        <label for="log">Логин: </label>
+        <input type="text" required name="inputLogin" id="log" placeholder="Введите логин: " value="">
+        <label for="pass">Пароль: </label>
+        <input type="password" required name="inputPassword" id="pass" placeholder="Введите пароль ..." value="">
+        <label for="rePass">Подтверждение пароля: </label>
+        <input type="password" required name="inputRepeatPassword" id="rePass" placeholder="Повторите пароль ..." value="">
+        <input type="submit" value="Зарегистрироваться">
+    </form>
+</div>
+{% endblock %}

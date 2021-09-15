@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block header_links %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
+{% endblock %}
+
+{% block header_title %}
+<title>Личный кабинет</title>
+{% endblock %}
+
+{% block content %}
+    <form class="profileChangeBlock" method="POST">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                <span>{{ message }}</span>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    {% if user == 'student' %}
+        <p class="titleText">Информация о студенте</p>
+        <p>ФИО: <input type="text" name="studentFullName" value="{{ data['studentData'][1] }}"></input></p>
+        <p>Учебное заведение: <input type="text" name="studentStudyPlace" value="{{ data['studentData'][3] }}"></input></p>
+        <p>Специальность: <input type="text" name="studentSpeciality" value="{{ data['studentData'][6] }}"></input></p>
+        <p>Курс: <input type="number" name="studentStudyYear" value="{{ data['studentData'][5] }}"></input></p>
+        <p>Должность: <input type="text" name="studentProfName" value="{{ data['profData'][1] }}"></input></p>
+        <p>Телефон: <input type="tel" name="studentPhone" value="{{ data['contactsData'][1] }}"></input></p>
+        <p>E-Mail: <input type="email" name="studentEMail" value="{{ data['contactsData'][2] }}"></input></p>
+    {% elif user == 'employer' %}
+        <p class="titleText">Информация о работодателе</p>
+        <p>ФИО: <input type="text" name="emplFullName" value="{{ data['emplData'][1] }}"></input></p>
+        <p>Должность: <input type="text" name="emplProfName" value="{{ data['profData'][1] }}"></input></p>
+        <p>Телефон: <input type="tel" name="emplPhone" value="{{ data['contactsData'][1] }}"></input></p>
+        <p>E-Mail: <input type="email" name="emplEMail" value="{{ data['contactsData'][2] }}"></input></p>
+        <p class="titleText">Информация о месте практики</p>
+        <p>Наименование: <input type="text" name="workplaceName" value="{{ data['workplaceData']['workplaceData'][1] }}"></input></p>
+        <p>Местоположение: <input type="text" name="workplaceLocation" value="{{ data['workplaceData']['locationData'][1] }}"></input></p>
+        <p>Адрес: <input type="text" name="workplaceAddress" value="{{ data['workplaceData']['locationData'][3] }}"></input></p>
+        <p>Город: <input type="text" name="workplaceCity" value="{{ data['workplaceData']['locationData'][2] }}"></input></p>
+        <p>Телефон: <input type="tel" name="workplacePhone" value="{{ data['workplaceData']['contactsData'][1] }}"></input></p>
+        <p>E-Mail: <input type="email" name="workplaceEMail" value="{{ data['workplaceData']['contactsData'][2] }}"></input></p>
+        <p>Дополнительная информация: <input type="text" name="workplaceLocationExtraData" value="{{ data['workplaceData']['locationData'][5] }}"></input></p>
+    {% endif %}
+        <button type="submit" formaction="/api/applyProfileSettings">Подтвердить изменения</button>
+        <button type="button" onclick="location.href='/cabinet'">Отменить изменения</button>
+    </form>
+{% endblock %}
+

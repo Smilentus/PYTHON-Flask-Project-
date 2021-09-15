@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block header_links %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/employersstyle.css') }}">
+{% endblock %}
+
+{% block header_title %}
+<title>Работодатели</title>
+{% endblock %}
+
+{% block content %}
+<div class="searchBar">
+    <form method="POST">
+        <input type="search" name="searchText" id="searchInput" placeholder="Введите данные..." value="">
+        <input formaction="/api/search/employer" formmethod="POST" type="submit" name="submitBtn" id="submitBtn" value="Поиск">
+        <input formaction="/api/search/employer/flush" formmethod="POST" type="submit" name="clearBtn" value="Очистить">
+    </form>
+</div>
+<div class="employersList">
+    {% if data|length > 0 %}
+    {% for employer in data %}
+        <div class="employerBlock">
+            <img class="employerImg" src="{{ url_for('static', filename='avatars/avatar.png') }}" alt="Аватарка работодателя">
+            <div class="employerExtra">
+                <p>{{ employer[1] }}</p>
+                <p>{{ employer[6] }}</p>
+                <p>{{ employer[8] }}</p>
+                <a href="/profile/employer/{{employer[0]}}">Открыть профиль</a>
+            </div>
+        </div>
+    {% endfor %}
+    {% else %}
+    <p>Работодатели не найдены!</p>
+{% endif %}
+</div>
+{% endblock %}

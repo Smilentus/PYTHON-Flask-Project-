@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block header_links %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/authreg.css') }}">
+{% endblock %}
+
+{% block header_title %}
+<title>Авторизация</title>
+{% endblock %}
+
+{% block content %}
+<div class="authBlock">
+    <h1>Авторизация</h1>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+            <span>{{ message }}</span>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <form action="/api/authUser" method="POST">
+        <label for="log">Логин: </label>
+        <input type="text" required name="inputLogin" id="log" placeholder="Введите логин: " value="">
+        <label for="pass">Пароль: </label>
+        <input type="password" required name="inputPassword" id="pass" placeholder="Введите пароль ..." value="">
+        <div>
+            <label for="rem">Запомнить меня?</label>
+            <input type="checkbox" name="inputRememberMe" id="rem">
+        </div>
+        <input type="submit" value="Авторизоваться">
+    </form>
+</div>
+{% endblock %}

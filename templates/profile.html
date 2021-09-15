@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block header_links %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
+{% endblock %}
+
+{% block header_title %}
+<title>Профиль</title>
+{% endblock %}
+
+{% block content %}
+<div class="profileContainer">
+    <div class="profileInfoBlock">
+        {% if user == 'student' %}
+        <div class="profileSide">
+            <img class="profileAvatar" src="{{ url_for('static', filename='avatars/avatar.png') }}"
+                alt="Аватар профиля">
+        </div>
+        <div class="profileInfo">
+            {% if data['studentData'][7] == "verified" %}
+            <p>Профиль подтверждён &#10003;</p>
+            {% else %}
+            <p>Профиль не подтверждён</a></p>
+            {% endif %}
+            <p class="titleText">Информация о студенте</p>
+            <p>ФИО: {{ data['studentData'][1] }}</p>
+            <p>Учебное заведение: {{ data['studentData'][3] }}</p>
+            <p>Специальность: {{ data['studentData'][6] }}</p>
+            <p>Курс: {{ data['studentData'][5] }}</p>
+            <p>Должность: {{ data['profData'][2] }}</p>
+            <p>Телефон: {{ data['contactsData'][1] }}</p>
+            <p>E-Mail: {{ data['contactsData'][2] }}</p>
+            {% if data['studentData'][7] == "verified" %}
+            <p><a href="/api/pingUser/student/{{data['studentData'][0]}}">Откликнуться</a></p>
+            {% endif %}
+            {% elif user == 'employer' %}
+            <div class="profileSide">
+                <img class="profileAvatar" src="{{ url_for('static', filename='avatars/avatar.png') }}"
+                    alt="Аватар профиля">
+            </div>
+            <div class="profileInfo">
+                {% if data['emplData'][4] == "verified" %}
+                <p>Профиль подтверждён &#10003;</p>
+                {% else %}
+                <p>Профиль не подтверждён</a></p>
+                {% endif %}
+                <p class="titleText">Информация о работодателе</p>
+                <p>ФИО: {{ data['emplData'][1] }}</p>
+                <p>Должность: {{ data['profData'][1] }}</p>
+                <p>Телефон: {{ data['contactsData'][1] }}</p>
+                <p>E-Mail: {{ data['contactsData'][2] }}</p>
+                {% if data['emplData'][4] == "verified" %}
+                <p><a href="/api/pingUser/employer/{{data['emplData'][0]}}">Откликнуться</a></p>
+                {% endif %}
+
+                {% elif user == 'workplace' %}
+                <div class="profileSide">
+                    <img class="profileAvatar" src="{{ url_for('static', filename='avatars/avatar.png') }}"
+                        alt="Аватар профиля">
+                </div>
+                <div class="profileInfo">
+                    <p class="titleText">Информация о месте практики</p>
+                    <p>Наименование: {{ data['workplaceData'][1] }}</p>
+                    <p><a href="/profile/employer/{{ data['workplaceData'][4] }}">Работодатель</a></p>
+                    <p>Местоположение: {{ data['locationData'][1] }}</p>
+                    <p>Адрес: {{ data['locationData'][3] }}</p>
+                    <p>Город: {{ data['locationData'][2] }}</p>
+                    <p>Телефон: {{ data['contactsData'][1] }}</p>
+                    <p>E-Mail: {{ data['contactsData'][2] }}</p>
+                    <p>Дополнительная информация: {{ data['locationData'][5] }}</p>
+                    {% if data['emplData'][4] == "verified" %}
+                    <p><a href="/news/wp/{{data['workplaceData'][0]}}">Новостная лента</a></p>
+                    {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endblock %}

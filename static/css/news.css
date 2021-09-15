@@ -1,0 +1,120 @@
+.authorTools
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 1000px;
+    margin: 50px auto;
+    padding: 25px;
+    border: 1px solid black;
+    box-shadow: 0 0 30px 10px rgba(0, 0, 0, 0.431);
+    background-color: rgb(231, 231, 231);
+}
+
+.authorTools form
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+}
+
+.authorTools div
+{
+    margin: 20px;
+}
+
+input[type=submit]
+{
+    width: 400px;
+    height: 60px;
+    font-size: 25px;
+    display: block;
+}
+
+input[type=text],
+textarea
+{
+    font-size: 25px;
+    padding: 15px;
+    width: 100%;
+    background-color: transparent;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+textarea
+{
+    height: 200px;
+}
+
+.newsContainer
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 1000px;
+    margin: 50px auto;
+    padding: 25px;
+}
+
+.postTitle
+{
+    font-size: 36px;
+    margin: 40px 0 20px 0;
+}
+
+.postDescription
+{
+    font-size: 28px;
+    padding: 25px;
+    text-align: justify;
+}
+
+.postCreated
+{
+    position: absolute;
+    top: -15px;
+    right: -15px;
+
+    font-size: 20px;
+    padding: 15px;
+
+    background-color: rgb(231, 231, 231);
+}
+
+.postAuthor
+{
+    position: absolute;
+    top: -15px;
+    left: -15px;
+    right: -15px;
+
+    font-size: 20px;
+    font-weight: bold;
+    padding: 15px;
+
+    box-shadow: 0 0 30px 10px rgba(0, 0, 0, 0.431);
+    background-color: rgb(231, 231, 231);
+}
+
+.newsPost
+{
+    position: relative;
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    flex-direction: column;
+    
+    padding: 25px;
+    margin: 15px;
+
+    border: 1px solid black;
+    box-shadow: 0 0 30px 10px rgba(0, 0, 0, 0.431);
+    background-color: rgb(231, 231, 231);
+}

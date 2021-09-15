@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block header_links %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/studentsstyle.css') }}">
+{% endblock %}
+
+{% block header_title %}
+<title>Студенты</title>
+{% endblock %}
+
+{% block content %}
+    <div class="searchBar">
+        <form method="POST">
+            <input type="search" name="searchText" id="searchInput" placeholder="Введите данные..." value="">
+            <input formaction="/api/search/student" formmethod="POST" type="submit" name="submitBtn" id="submitBtn" value="Поиск">
+            <input formaction="/api/search/student/flush" formmethod="POST" type="submit" name="clearBtn" value="Очистить">
+        </form>
+    </div>
+    <div class="studentsList">
+        {% if data|length > 0 %}
+        {% for student in data %}
+            <div class="studentBlock">
+                <img class="studentImg" src="{{ url_for('static', filename='avatars/avatar.png') }}" alt="Аватарка студента">
+                <div class="studentExtra">
+                    <p>{{ student[1] }}</p>
+                    <p>{{ student[3] }}</p>
+                    <p>{{ student[6] }}</p>
+                    <a href="/profile/student/{{student[0]}}">Открыть профиль</a>
+                </div>
+            </div>
+        {% endfor %}
+        {% else %}
+            <p>Студенты не найдены!</p>
+        {% endif %}
+    </div>
+{% endblock %}
